@@ -1,22 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import api from "../api";
 
-const TaskList = ({ onEdit }) => {
-  const [tasks, setTasks] = useState([]);
+const TaskList = ({ tasks, onEdit, fetchTasks }) => {
   const [filter, setFilter] = useState("All");
 
-  useEffect(() => {
-    fetchTasks();
-  }, []);
-
-  const fetchTasks = async () => {
-    const response = await api.get("/tasks");
-    setTasks(response.data);
-  };
-
   const deleteTask = async (id) => {
-    await api.delete(`/tasks/${id}`);
-    fetchTasks();
+    try {
+      await api.delete(`/tasks/${id}`);
+      fetchTasks(); // Refresh task list after deletion
+    } catch (error) {
+      console.error("Error deleting task:", error);
+    }
   };
 
   const filteredTasks = tasks.filter((task) =>
