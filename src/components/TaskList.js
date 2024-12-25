@@ -7,7 +7,7 @@ const TaskList = ({ tasks, onEdit, fetchTasks }) => {
   const deleteTask = async (id) => {
     try {
       await api.delete(`/tasks/${id}`);
-      fetchTasks(); // Refresh task list after deletion
+      fetchTasks();
     } catch (error) {
       console.error("Error deleting task:", error);
     }
