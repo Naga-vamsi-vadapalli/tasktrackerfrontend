@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
-import api from '../api';
+import React, { useState } from "react";
+import api from "../api";
 
 const TaskForm = ({ task, onClose, refreshTasks }) => {
   const [form, setForm] = useState(
-    task || { name: '', description: '', dueDate: '', status: 'Pending', priority: 'Low' }
+    task || {
+      name: "",
+      description: "",
+      dueDate: "",
+      status: "Pending",
+      priority: "Low",
+    }
   );
 
   const handleChange = (e) => {
@@ -13,11 +19,9 @@ const TaskForm = ({ task, onClose, refreshTasks }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (task) {
-      await api.patch(`/tasks/${task._id}`, form);
-    } else {
-      await api.post('/tasks', form);
-    }
+    task
+      ? await api.patch(`/tasks/${task._id}`, form)
+      : await api.post("/tasks", form);
     refreshTasks();
     onClose();
   };
@@ -25,10 +29,26 @@ const TaskForm = ({ task, onClose, refreshTasks }) => {
   return (
     <div className="modal">
       <form onSubmit={handleSubmit}>
-        <h2>{task ? 'Edit Task' : 'Add Task'}</h2>
-        <input name="name" value={form.name} onChange={handleChange} placeholder="Task Name" required />
-        <textarea name="description" value={form.description} onChange={handleChange} placeholder="Description" />
-        <input type="date" name="dueDate" value={form.dueDate} onChange={handleChange} />
+        <h2>{task ? "Edit Task" : "Add Task"}</h2>
+        <input
+          name="name"
+          value={form.name}
+          onChange={handleChange}
+          placeholder="Task Name"
+          required
+        />
+        <textarea
+          name="description"
+          value={form.description}
+          onChange={handleChange}
+          placeholder="Description"
+        />
+        <input
+          type="date"
+          name="dueDate"
+          value={form.dueDate}
+          onChange={handleChange}
+        />
         <select name="status" value={form.status} onChange={handleChange}>
           <option value="Pending">Pending</option>
           <option value="In Progress">In Progress</option>
@@ -39,8 +59,20 @@ const TaskForm = ({ task, onClose, refreshTasks }) => {
           <option value="Medium">Medium</option>
           <option value="High">High</option>
         </select>
-        <button type="submit">Save</button>
-        <button type="button" onClick={onClose}>Cancel</button>
+        <div
+          style={{
+            display: "flex",
+            color: "blue",
+            padding: "10px",
+            justifyContent: "space-between",
+            margin: "10px",
+          }}
+        >
+          <button type="submit">Save</button>
+          <button type="button" onClick={onClose}>
+            Cancel
+          </button>
+        </div>
       </form>
     </div>
   );

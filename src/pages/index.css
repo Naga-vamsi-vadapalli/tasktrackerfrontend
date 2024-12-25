@@ -1,0 +1,10 @@
+.buttonCont {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+button {
+  padding: 8px 12px;
+  margin: 10px;
+  font-size: 12px;
+}
